@@ -8,6 +8,7 @@
 int run = 1;
 int left = 0;
 int right = 0;
+int wheelOK = 0;
 
 ros::Subscriber sub;
 
@@ -44,6 +45,12 @@ void stopperCallback(const ca_msgs::Bumper& msg) {
   return;
 }
 
+void wheeldropCallback(const std_msgs::Bool& msg) {
+  ROS_INFO(msg.data ? "true": "false");
+  if(msg.data) wheelOK = 0;
+  else wheelOK = 1;
+}
+
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "controller");
@@ -51,6 +58,8 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
   ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
+
+  ros::Subscriber wheelSub = n.subscribe("wheeldrop", 1000, wheeldropCallback);
 
   sub = n.subscribe("bumper", 1000, stopperCallback);
 
@@ -60,7 +69,7 @@ int main(int argc, char **argv)
   geometry_msgs::Twist msg;
   while (ros::ok())
   {
-    if(run) {
+    if(run && wheelOK) {
       if(left) {
       ROS_INFO("left: %d", left);
         msg.linear.x = -0.5;
