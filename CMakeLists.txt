@@ -3,6 +3,14 @@ project(controller)
 
 find_package(libcreate REQUIRED)
 
+set(RPLIDAR_SDK_PATH "./sdk/")
+
+FILE(GLOB RPLIDAR_SDK_SRC 
+  "${RPLIDAR_SDK_PATH}/src/arch/linux/*.cpp"
+  "${RPLIDAR_SDK_PATH}/src/hal/*.cpp"
+  "${RPLIDAR_SDK_PATH}/src/*.cpp"
+)
+
 find_package(catkin REQUIRED COMPONENTS
   ca_msgs
   diagnostic_msgs
@@ -36,11 +44,16 @@ roslint_add_test()
 
 include_directories(
   include
+  ${RPLIDAR_SDK_PATH}/include
+  ${RPLIDAR_SDK_PATH}/src
   ${libcreate_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
 add_executable(${PROJECT_NAME} src/main_controller.cpp)
+
+add_executable(rplidar_node src/rplidar_node.cpp)
+target_link_libraries(rplidar_node ${catkin_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME}
   ${libcreate_LIBRARIES}
@@ -70,3 +83,4 @@ install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
   PATTERN ".svn" EXCLUDE
 )
+
