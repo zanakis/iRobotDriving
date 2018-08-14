@@ -1,6 +1,5 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include "std_msgs/Float32.h"
 #include "create_driver/create_driver.h"
 #include <tf/transform_datatypes.h>
 #include <sstream>
@@ -10,7 +9,6 @@ int run = 1;
 int left = 0;
 int right = 0;
 int wheelOK = 0;
-float turn = 0.0;
 
 ros::Subscriber sub;
 
@@ -48,26 +46,20 @@ void stopperCallback(const ca_msgs::Bumper& msg) {
 }
 
 void wheeldropCallback(const std_msgs::Bool& msg) {
+  ROS_INFO(msg.data ? "true": "false");
   if(msg.data) wheelOK = 0;
   else wheelOK = 1;
 }
 
-void lidarCallback(const std_msgs::Float32& msg) {
-  turn = msg.data;
-  ROS_INFO("%d",turn);
-}
-
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "controller");
+  ros::init(argc, argv, "bumper");
 
   ros::NodeHandle n;
 
   ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
 
   ros::Subscriber wheelSub = n.subscribe("wheeldrop", 1000, wheeldropCallback);
-
-  ros::Subscriber lidarSub = n.subscribe("lidar", 1000, lidarCallback);
 
   sub = n.subscribe("bumper", 1000, stopperCallback);
 
@@ -94,7 +86,7 @@ int main(int argc, char **argv)
     }
     else {
       msg.linear.x = 0.0;
-      msg.angular.z = turn;
+      msg.angular.z = 0.0;
     }
     loop_rate.sleep();
     chatter_pub.publish(msg);
