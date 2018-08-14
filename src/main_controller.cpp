@@ -10,7 +10,7 @@ int run = 1;
 int left = 0;
 int right = 0;
 int wheelOK = 0;
-float turn = 0.0;
+double turn = 0.0;
 
 ros::Subscriber sub;
 

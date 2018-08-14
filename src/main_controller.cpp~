@@ -54,7 +54,7 @@ void wheeldropCallback(const std_msgs::Bool& msg) {
 
 void lidarCallback(const std_msgs::Float32& msg) {
   turn = msg.data;
-  ROS_INFO("%d",turn);
+  ROS_INFO("%f",turn);
 }
 
 int main(int argc, char **argv)

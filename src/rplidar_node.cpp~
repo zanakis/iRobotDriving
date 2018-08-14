@@ -10,37 +10,24 @@ ros::Publisher pub;
 void scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 {
   int count = scan->scan_time / scan->time_increment;
+  std_msgs::Float32 msg;
+  msg.data = 0.0;
   for(int i = 0; i < count; i++) {
     if(RAD2DEG(scan->angle_min + scan->angle_increment * i) > 120) {
-      if(scan->ranges[i]<0.2) {
+      if(scan->ranges[i]<0.4) {
         ROS_INFO ("right %f", RAD2DEG(scan->angle_min + scan->angle_increment * i));
-        std_msgs::Float32 msg;
 
-        msg.data = 1.0;
-        pub.publish(msg);
-        break;
-      } else if(scan->ranges[i]>0.2) {
-        std_msgs::Float32 msg;
-        msg.data = 0.0;
-        pub.publish(msg);
-        break;
+        msg.data = 4.25;
       }
-    } else if(RAD2DEG(scan->angle_min + scan->angle_increment * i) < -120) {
-      if(scan->ranges[i]<0.2) {
+    }  if(RAD2DEG(scan->angle_min + scan->angle_increment * i) < -120) {
+      if(scan->ranges[i]<0.4) {
         ROS_INFO ("left %f", RAD2DEG(scan->angle_min + scan->angle_increment * i));
-        std_msgs::Float32 msg;
 
-        msg.data = -1.0;
-        pub.publish(msg);
-        break;
-      } else if(scan->ranges[i]>0.2) {
-        std_msgs::Float32 msg;
-        msg.data = 0.0;
-        pub.publish(msg);
-        break;
+        msg.data = -4.25;
       }
     }
   }
+  pub.publish(msg);
 }
 
 int main(int argc, char **argv)
