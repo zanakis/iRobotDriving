@@ -10,7 +10,7 @@ int run = 1;
 int left = 0;
 int right = 0;
 int wheelOK = 0;
-double turn = 0.0;
+float turn = 0.0;
 
 ros::Subscriber sub;
 
@@ -21,6 +21,7 @@ void endTimer(int *x, int value) {
   *x = value;
   ros::NodeHandle n;
   sub = n.subscribe("bumper", 1000, stopperCallback);
+  
 }
 
 void setTimer(int* x, int value) {
@@ -80,16 +81,16 @@ int main(int argc, char **argv)
     if(run && wheelOK) {
       if(left) {
       ROS_INFO("left: %d", left);
-        msg.linear.x = -0.5;
-        msg.angular.z = -2.0;
+        msg.linear.x = -0.3;
+        msg.angular.z = -1.5;
       }
       else if(right) {
       ROS_INFO("right: %d", right);
-        msg.linear.x = -0.5;
-        msg.angular.z = 2.0;
+        msg.linear.x = -0.3;
+        msg.angular.z = 1.5;
       } else {
         msg.linear.x = 0.5;
-        msg.angular.z = 0.0;
+        msg.angular.z = turn;
      }
     }
     else {
