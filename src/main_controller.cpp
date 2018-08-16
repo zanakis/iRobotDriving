@@ -47,7 +47,7 @@ void stopperCallback(const ca_msgs::Bumper& msg) {
   ros::NodeHandle n;
   return;
 }
-
+  
 void wheeldropCallback(const std_msgs::Bool& msg) {
   if(msg.data) wheelOK = 0;
   else wheelOK = 1;
