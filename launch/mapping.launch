@@ -1,0 +1,15 @@
+<launch>
+
+  <!-- Start gmapping -->
+  <node name="gmapping" pkg="gmapping" type="slam_gmapping"/>
+
+  <!-- Start controller -->
+  <node name="controller" pkg="controller" type="main_controller"/>
+
+  <!-- Start lidar node -->
+  <node name="rplidar_node" pkg="controller" type="rplidar_node"/>
+
+  <!-- Rviz -->
+  <include file="$(find roomblock_mapping)/launch/rviz.launch"/>
+
+</launch>

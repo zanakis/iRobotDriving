@@ -1,0 +1,17 @@
+<launch>
+  <arg name="map_file" default="/home/michael/Desktop/longmap.yaml"/>
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- AMCL -->
+  <include file="$(find roomblock_navigation)/launch/include/laser_amcl.launch.xml"/>
+
+  <!-- Move base -->
+  <include file="$(find roomblock_navigation)/launch/include/move_base.launch.xml"/>
+
+  <!-- Rviz -->
+  <include file="$(find roomblock_navigation)/launch/rviz.launch"/>
+
+</launch>
+

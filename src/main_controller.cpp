@@ -81,15 +81,15 @@ int main(int argc, char **argv)
     if(run && wheelOK) {
       if(left) {
       ROS_INFO("left: %d", left);
-        msg.linear.x = -0.3;
+        msg.linear.x = -0.24;
         msg.angular.z = -1.5;
       }
       else if(right) {
       ROS_INFO("right: %d", right);
-        msg.linear.x = -0.3;
-        msg.angular.z = 1.5;
+        msg.linear.x = -0.24;
+        msg.angular.z = 1.2;
       } else {
-        msg.linear.x = 0.5;
+        msg.linear.x = 0.4;
         msg.angular.z = turn;
      }
     }
