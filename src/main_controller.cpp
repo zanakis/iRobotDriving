@@ -9,7 +9,7 @@
 int run = 1;
 int left = 0;
 int right = 0;
-int wheelOK = 0;
+int wheelOK = 1;
 float turn = 0.0;
 
 ros::Subscriber sub;
@@ -66,11 +66,11 @@ int main(int argc, char **argv)
 
   ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
 
-  ros::Subscriber wheelSub = n.subscribe("wheeldrop", 1000, wheeldropCallback);
+//  ros::Subscriber wheelSub = n.subscribe("wheeldrop", 1000, wheeldropCallback);
 
   ros::Subscriber lidarSub = n.subscribe("lidar", 1000, lidarCallback);
 
-  sub = n.subscribe("bumper", 1000, stopperCallback);
+//  sub = n.subscribe("bumper", 1000, stopperCallback);
 
   ros::Rate loop_rate(10);
 

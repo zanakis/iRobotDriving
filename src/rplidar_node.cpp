@@ -14,13 +14,13 @@ void scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
   msg.data = 0.0;
   for(int i = 0; i < count; i++) {
     if(RAD2DEG(scan->angle_min + scan->angle_increment * i) > 120) {
-      if(scan->ranges[i]<0.4) {
+      if(scan->ranges[i]<0.6) {
         ROS_INFO ("right %f", RAD2DEG(scan->angle_min + scan->angle_increment * i));
 
         msg.data = 2.00;
       }
     }  if(RAD2DEG(scan->angle_min + scan->angle_increment * i) < -120) {
-      if(scan->ranges[i]<0.4) {
+      if(scan->ranges[i]<0.6) {
         ROS_INFO ("left %f", RAD2DEG(scan->angle_min + scan->angle_increment * i));
 
         msg.data = -2.00;
